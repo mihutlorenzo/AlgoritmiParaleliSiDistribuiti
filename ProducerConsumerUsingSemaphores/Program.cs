@@ -9,19 +9,42 @@ namespace ProducerConsumerUsingSemaphores
 {
     class Program
     {
+        const int BUFFERSIZE = 20;
+        static PCBuffer buffer = new PCBuffer(BUFFERSIZE);
+        const int NUMBEROFPRODUCERS = 8;
+        const int NUMBEROFCONSUMERS = 5;
+
+
         static void Main(string[] args)
         {
-            PCBuffer buffer = new PCBuffer(20);
-            Producer producer = new Producer(buffer,1);
-            Consumer consumer = new Consumer(buffer,1);
-            Thread threadProducers = new Thread(producer.Produce);
-            Thread threadConsumers = new Thread(consumer.Consume);
+            Thread[] producers = new Thread[NUMBEROFPRODUCERS];
+            Thread[] consumers = new Thread[NUMBEROFCONSUMERS];
 
-            threadProducers.Start();
-            threadConsumers.Start();
+            for (int i = 0; i < NUMBEROFPRODUCERS; i++)
+            {
+                producers[i] = new Thread(new Producer(buffer, i).Produce);
+                producers[i].Start();
+            }
 
-            threadProducers.Join();
-            threadConsumers.Join();
+            for (int i = 0; i < NUMBEROFCONSUMERS; i++)
+            {
+                consumers[i] = new Thread(new Consumer(buffer, i).Consume);
+                consumers[i].Start();
+            }
+
+            for (int i = 0; i < NUMBEROFPRODUCERS; i++)
+            {
+                
+                producers[i].Join();
+            }
+
+            for (int i = 0; i < NUMBEROFCONSUMERS; i++)
+            {
+                
+                consumers[i].Join();
+            }
+
+
         }
     }
 }

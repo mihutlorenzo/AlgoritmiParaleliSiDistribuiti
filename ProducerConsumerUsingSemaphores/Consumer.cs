@@ -18,9 +18,8 @@ namespace ProducerConsumerUsingSemaphores
         {
             while (true)
             {
-                int element = buffer.PopElementFromBuffer();
-                Console.WriteLine("Consumer with id {consumerId} consume element with element {element}");
-                Thread.Sleep(11000);
+                int element = buffer.PopElementFromBuffer(consumerId);
+                Thread.Sleep(700);
             }
         }
     }

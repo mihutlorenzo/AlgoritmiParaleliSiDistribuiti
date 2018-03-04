@@ -10,13 +10,12 @@ namespace ProducerConsumerUsingSemaphores
     class Producer
     {
         private PCBuffer buffer;
-        private Random rand;
         private int producerId;
 
         public Producer(PCBuffer buffer,int id)
         {
             this.buffer = buffer;
-            rand = new Random();
+            
             producerId = id;
         }
 
@@ -24,9 +23,8 @@ namespace ProducerConsumerUsingSemaphores
         {
             while (true)
             {
-                int element = rand.Next();
-                buffer.PushElementInBuffer(element);
-                Console.WriteLine("Producer with id {producerId} produce element with value {element}");
+                
+                buffer.PushElementInBuffer(producerId);
                 Thread.Sleep(1000);
             }
             
