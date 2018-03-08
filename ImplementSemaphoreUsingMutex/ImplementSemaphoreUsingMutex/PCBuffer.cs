@@ -9,9 +9,8 @@ namespace ProducerConsumerUsingSemaphores
 
         private Semaphore semaProd;
         private Semaphore semaCons;
-        private int[] buffer;
+        private volatile int[] buffer;
         private int bufferHead, bufferTail;
-        private volatile int noElementsInBuffer;
         private Random rand;
 
         public PCBuffer(int bufferSize)
@@ -19,7 +18,6 @@ namespace ProducerConsumerUsingSemaphores
             buffer = new int[bufferSize];
             bufferHead = 0;
             bufferTail = 0;
-            noElementsInBuffer = 0;
             semaProd = new Semaphore(bufferSize);
             semaCons = new Semaphore();
             rand = new Random();
@@ -33,8 +31,6 @@ namespace ProducerConsumerUsingSemaphores
             element = buffer[bufferHead % buffer.Length];
             Console.WriteLine("Consumer {2} pop from buffer the element with value {0} and index {1}", element, bufferHead, consumerId);
             bufferHead++;
-
-            Console.WriteLine(noElementsInBuffer);
             semaProd.Release();
 
 
@@ -49,9 +45,6 @@ namespace ProducerConsumerUsingSemaphores
             buffer[bufferTail % buffer.Length] = element;
             Console.WriteLine("Producer {2} push in buffer the element with value {0} and index {1} ", element, bufferTail, id);
             bufferTail++;
-
-            Console.WriteLine(noElementsInBuffer);
-
             semaCons.Release();
 
 

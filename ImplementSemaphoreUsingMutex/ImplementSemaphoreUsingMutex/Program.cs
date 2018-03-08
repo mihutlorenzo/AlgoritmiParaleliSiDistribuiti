@@ -12,8 +12,8 @@ namespace ImplementSemaphoreUsingMutex
     {
         const int BUFFERSIZE = 5;
         static PCBuffer buffer = new PCBuffer(BUFFERSIZE);
-        const int NUMBEROFPRODUCERS = 3;
-        const int NUMBEROFCONSUMERS = 0;
+        const int NUMBEROFPRODUCERS = 2;
+        const int NUMBEROFCONSUMERS = 2;
 
         static void Main(string[] args)
         {
@@ -44,6 +44,7 @@ namespace ImplementSemaphoreUsingMutex
 
                 consumers[i].Join();
             }
+            Console.ReadLine();
 
         }
     }

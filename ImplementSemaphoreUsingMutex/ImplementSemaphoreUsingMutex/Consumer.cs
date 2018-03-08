@@ -17,7 +17,7 @@ namespace ProducerConsumerUsingSemaphores
         public void Consume()
         {
             int i = 0;
-            while (i<100)
+            while (i<20)
             {
                 int element = buffer.PopElementFromBuffer(consumerId);
                 Thread.Sleep(700);

@@ -22,11 +22,11 @@ namespace ProducerConsumerUsingSemaphores
         public void Produce()
         {
             int i = 0;
-            while (i<100)
+            while (i<20)
             {
                 
                 buffer.PushElementInBuffer(producerId);
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 i++;
             }
             

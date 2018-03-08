@@ -13,9 +13,9 @@ namespace ImplementSemaphoreUsingMutex
         private Mutex permitsMutex;
         private Mutex waitForPermit;
 
-        public Semaphore(int nrOfPermits = 0)
+        public Semaphore(int nrOfPermits = 1)
         {
-            permits = nrOfPermits;
+            permits = nrOfPermits - 1;
             permitsMutex = new Mutex();
             waitForPermit = new Mutex();
         }
@@ -24,9 +24,11 @@ namespace ImplementSemaphoreUsingMutex
         public void Aquire()
         {
             permitsMutex.WaitOne();
-            while(permits == 0)
+            while(permits <= 0)
             {
-                waitForPermit.WaitOne();
+                permitsMutex.ReleaseMutex();
+                Thread.Sleep(100);
+                permitsMutex.WaitOne();
             }
             permits--;
             permitsMutex.ReleaseMutex();
@@ -35,11 +37,6 @@ namespace ImplementSemaphoreUsingMutex
         public void Release()
         {
             permitsMutex.WaitOne();
-            if(permits == 0)
-            {
-                
-                waitForPermit.ReleaseMutex();
-            }
             permits++;
             permitsMutex.ReleaseMutex();
         }
